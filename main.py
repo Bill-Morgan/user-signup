@@ -5,18 +5,12 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 def isvalidemail_re(email):
-    dots = re.compile(r'\.')
-    ats = re.compile(r'\@')
-    dot_count = len(list(dots.finditer(email)))
-    ats_count = len(list(ats.finditer(email)))
-    return (((dot_count == 1 and ats_count == 1 and isvalidstr_re(email)) or len(email) == 0))
+    dot_valid = (len(list(re.findall(r'\.', email)))) == 1
+    at_valid = (len(list(re.findall(r'\@',email)))) == 1
+    return (((dot_valid and at_valid and isvalidstr_re(email)) or len(email) == 0))
 
 def isvalidstr_re(instr):
-    nonchars = re.compile(r'\s')
-    nonchars_count = len(list(nonchars.finditer(instr)))
-    chars = re.compile(r'.')
-    char_count = len(list(chars.finditer(instr)))
-    return (char_count >= 3 and char_count <= 20 and nonchars_count == 0)
+    return (re.fullmatch(r'\S{3,20}', instr))
 
 @app.route("/", methods=['POST','GET'])
 def index():
