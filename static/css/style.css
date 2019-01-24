@@ -1,0 +1,10 @@
+h1, .submit{ font-style: italic;
+        text-align: center;}
+.label, label {text-align: right;} 
+table { border-style: solid;
+        border-radius: 10%;
+        border-color: blue;
+        background-color: bisque;
+        padding: 0px 20px 20px 20px;
+        margin: 25px;}
+err {   color: red;}
