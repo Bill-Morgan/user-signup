@@ -12,25 +12,26 @@ def isvalidemail(email):
 @app.route("/", methods=['POST','GET'])
 def index():
     if request.method == 'POST':
-        username_error=''
-        password_error=''
-        vpassword_error=''
-        email_error=''
         username = request.form['username']
         password = request.form['password']
         vpassword = request.form['vpassword']
         email = request.form['email']
+        username_error=''
+        password_error=''
+        vpassword_error=''
+        email_error=''
         if not isvalidstr(username):
-            username_error = "Username Error"
+            username_error = "That's not a valid username"
         if not isvalidstr(password):
-            password_error = "Password Error"
+            password_error = " That's not a valid password"
         if not password == vpassword:
-            vpassword_error = "Passwords do not match"
+            vpassword_error = "Passwords don't match"
         if not isvalidemail(email):
-            email_error = "Email Error"
-        return render_template('form.html', username=username, username_error=username_error, password_error=password_error, vpassword_error=vpassword_error, email=email, email_error=email_error)    
-    return render_template('form.html')
-
+            email_error = "That's not a valid email"
+        if not (username_error or password_error or vpassword_error or email_error):
+            return render_template('welcome.html', username=username, title='Welcome')
+        return render_template('form.html', username=username, username_error=username_error, password_error=password_error, vpassword_error=vpassword_error, email=email, email_error=email_error, title='Signup')    
+    return render_template('form.html', title='Signup')
 
 app.run()
 
