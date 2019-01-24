@@ -1,0 +1,32 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<table>
+    <tbody>
+        <form method="POST">
+        <tr>
+            <td colspan="2"><h1>Signup</h1></td>
+        </tr>
+        <tr>
+            <td class='label'>Username: </td>
+            <td class='inp-txt'><input type='text' name='username' id='username' value='{{username}}'> <err>{{username_error}}</err></td>
+        </tr>
+        <tr>
+            <td class='label'>Password: </td>
+            <td class='inp-txt'><input type='password' name='password' id='password' value=''> <err>{{password_error}}</err></td>
+        </tr>
+        <tr>
+            <td class='label'>Verify Password: </td>
+            <td class='inp-txt'><input type='password' name='vpassword' id='vpassword' value=''> <err>{{vpassword_error}}</err></td>
+        </tr>
+        <tr>
+            <td class='label'>Email (optional): </td>
+            <td class='inp-txt'><input type='text' name='email' id='email' value='{{email}}'> <err>{{email_error}}</err></td>
+        </tr>
+        <tr>
+            <td colspan="2" class='submit'><br><input type='submit' name='Submit'></td>
+        </tr>
+        </form>
+    </tbody>
+</table>
+{% endblock %}
