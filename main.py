@@ -1,13 +1,22 @@
 from flask import Flask, request, redirect, render_template
+import re
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-def isvalidstr(instr):
-    return (len(instr) >= 3 and len(instr) <= 20 and not (' ' in instr))
+def isvalidemail_re(email):
+    dots = re.compile(r'\.')
+    ats = re.compile(r'\@')
+    dot_count = len(list(dots.finditer(email)))
+    ats_count = len(list(ats.finditer(email)))
+    return (((dot_count == 1 and ats_count == 1 and isvalidstr_re(email)) or len(email) == 0))
 
-def isvalidemail(email):
-    return ((email.count('.') == 1 and email.count('@') == 1 and isvalidstr(email) or len(email) == 0)) 
+def isvalidstr_re(instr):
+    nonchars = re.compile(r'\s')
+    nonchars_count = len(list(nonchars.finditer(instr)))
+    chars = re.compile(r'.')
+    char_count = len(list(chars.finditer(instr)))
+    return (char_count >= 3 and char_count <= 20 and nonchars_count == 0)
 
 @app.route("/", methods=['POST','GET'])
 def index():
@@ -20,14 +29,14 @@ def index():
         password_error=''
         vpassword_error=''
         email_error=''
-        if not isvalidstr(username):
+        if not isvalidstr_re(username):
             username_error = "That's not a valid username"
             username = ''
-        if not isvalidstr(password):
+        if not isvalidstr_re(password):
             password_error = " That's not a valid password"
         if not password == vpassword:
             vpassword_error = "Passwords don't match"
-        if not isvalidemail(email):
+        if not isvalidemail_re(email):
             email_error = "That's not a valid email"
             email = ''
         if not (username_error or password_error or vpassword_error or email_error):
@@ -41,4 +50,3 @@ def welcome():
     return render_template('welcome.html', username=username, title='Welcome')
 
 app.run()
-
